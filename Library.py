@@ -14,6 +14,7 @@ while True:
         print('Quitting')
         break
     elif game == '1':
+        os.system('clear')
         os.system('python3 ~/PycharmProjects/Games/NaughtsAndCrosses.py')
     else:
         print('Please enter a valid game number')
