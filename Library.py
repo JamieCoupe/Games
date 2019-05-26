@@ -3,6 +3,7 @@
 
 import os
 import time
+import NaughtsAndCrosses
 
 while True:
     print('Available games:\n'
@@ -15,7 +16,7 @@ while True:
         break
     elif game == '1':
         os.system('clear')
-        os.system('python3 ~/PycharmProjects/Games/NaughtsAndCrosses.py')
+        NaughtsAndCrosses.play_game()
     else:
         print('Please enter a valid game number')
 
