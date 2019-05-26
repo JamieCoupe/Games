@@ -7,13 +7,13 @@ import time
 WIN_SLEEP_TIMER = 5
 
 
-def print_board(board):
+def print_board(board_dict):
     print('\n* * * * * * * * * *\n Naughts and Crosses\n* * * * * * * * * *\n*                 *')
-    print('*    ' + board['tl'] + ' | ' + board['tm'] + ' | ' + board['tr'] + '    *')
+    print('*    ' + board_dict['tl'] + ' | ' + board_dict['tm'] + ' | ' + board_dict['tr'] + '    *')
     print('*   ' + '---+---+---   *')
-    print('*    ' + board['ml'] + ' | ' + board['mm'] + ' | ' + board['mr'] + '    *')
+    print('*    ' + board_dict['ml'] + ' | ' + board_dict['mm'] + ' | ' + board_dict['mr'] + '    *')
     print('*   ' + '---+---+---   *')
-    print('*    ' + board['ll'] + ' | ' + board['lm'] + ' | ' + board['lr'] + '    *')
+    print('*    ' + board_dict['ll'] + ' | ' + board_dict['lm'] + ' | ' + board_dict['lr'] + '    *')
     print('*                 *\n* * * * * * * * * *\n')
 
 
@@ -29,8 +29,8 @@ def add_turn_to_board(board, move, turn):
 
 
 def set_turn_from_choice():
-    validchoice = True
-    while validchoice:
+    is_valid_choice = True
+    while is_valid_choice:
         choice = input('Who should play first?\n1. You ("X")\n2. Computer ("O")\n').lower()
         if choice == '1':
             return 'X'
@@ -65,34 +65,34 @@ def check_player_win(row):
 
 
 def check_horizontal(board):
-    for horizontal in range(3):
-        row = [v for v in list(board.values())[horizontal * 3:(horizontal + 1) * 3]]
+    for horizontal_index in range(3):
+        horizontal_row = [v for v in list(board.values())[horizontal_index * 3:(horizontal_index + 1) * 3]]
         # print('horizontal' + str(i) + str(row))
-        if check_player_win(row):
+        if check_player_win(horizontal_row):
             return player_wins()
-        elif check_computer_win(row):
+        elif check_computer_win(horizontal_row):
             return computer_wins()
 
 
 def check_vertical(board):
-    for vertical in range(3):
-        row = [v for v in list(board.values())[vertical::3]]
+    for vertical_index in range(3):
+        vertical_row = [v for v in list(board.values())[vertical_index::3]]
         # print('vertical' + str(i) + str(row))
-        if check_player_win(row):
+        if check_player_win(vertical_row):
             return player_wins()
-        elif check_computer_win(row):
+        elif check_computer_win(vertical_row):
             return computer_wins()
 
 
 def check_diagonal(board):
-    for diagonal in range(0, 2):
-        row = [v for v in list(board.values())[diagonal * 2::get_diagonal_multiplier(diagonal)]]
-        if len(row) > 3:
-            row.pop(3)
+    for diagonal_index in range(0, 2):
+        diagonal_row = [v for v in list(board.values())[diagonal_index * 2::get_diagonal_multiplier(diagonal_index)]]
+        if len(diagonal_row) > 3:
+            diagonal_row.pop(3)
         # print('diagonal' + str(row))
-        if check_player_win(row):
+        if check_player_win(diagonal_row):
             return player_wins()
-        elif check_computer_win(row):
+        elif check_computer_win(diagonal_row):
             return computer_wins()
 
 
@@ -104,35 +104,31 @@ def get_diagonal_multiplier(i):
 
 
 def check_win(board):
-    horizontal = check_horizontal(board)
-    vertical = check_vertical(board)
-    diagonal = check_diagonal(board)
+    horizontal_win = check_horizontal(board)
+    vertical_win = check_vertical(board)
+    diagonal_win = check_diagonal(board)
 
-    if horizontal or vertical or diagonal:
+    if horizontal_win or vertical_win or diagonal_win:
         return True
 
 
 def computer_wins():
-    global board
-    board = get_new_board()
     print('Computer wins')
     time.sleep(WIN_SLEEP_TIMER)
     return True
 
 
 def player_wins():
-    global board
-    board = get_new_board()
     print('Player wins')
     time.sleep(WIN_SLEEP_TIMER)
     return True
 
 
 def get_new_board():
-    newboard = {'tl': ' ', 'tm': ' ', 'tr': ' ',
-                'ml': ' ', 'mm': ' ', 'mr': ' ',
-                'll': ' ', 'lm': ' ', 'lr': ' '}
-    return newboard
+    new_board = {'tl': ' ', 'tm': ' ', 'tr': ' ',
+                 'ml': ' ', 'mm': ' ', 'mr': ' ',
+                 'll': ' ', 'lm': ' ', 'lr': ' '}
+    return new_board
 
 
 def play_game():
@@ -150,13 +146,12 @@ def play_game():
             won = check_win(board)
 
             if won:
+                print('No one won!')
                 break
-                print('No one win. Please try again!')
 
             move = input('Turn for ' + turn + '. Move on which space?').lower()
 
             if move == 'q':
-                quitflag = True
                 print('Quiting the game')
                 break
             elif move in ['tl', 'tm', 'tr', 'ml', 'mm', 'mr', 'll', 'lm', 'lr']:
