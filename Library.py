@@ -4,6 +4,7 @@
 import os
 import time
 import NaughtsAndCrosses
+import Hangman
 
 while True:
     print('Available games:\n'
@@ -17,6 +18,9 @@ while True:
     elif game == '1':
         os.system('clear')
         NaughtsAndCrosses.play_game()
+    elif game == '2':
+        os.system('clear')
+        Hangman.play_game()
     else:
         print('Please enter a valid game number')
 
