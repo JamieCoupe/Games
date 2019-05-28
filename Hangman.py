@@ -11,7 +11,11 @@ logging.disable(logging.DEBUG)
 
 EASY_WORDS = ['can', 'tan', 'apple']
 MEDIUM_WORDS = ['medium', 'special', 'caravan']
-HARD_WORDS = ['whisper', 'worship', 'arcane']
+HARD_WORDS = ['Awkward', 'Bagpipes', 'BanjoBungler','Croquet','Crypt', 'Dwarves', 'Fervid', 'Fishhook', 'Fjord',
+              'Gazebo', 'Gypsy', 'Haiku', 'Haphazard', 'Hyphen', 'Ivory', 'Jazzy', 'Jiffy', 'Jinx', 'Jukebox', 'Kayak',
+              'Kiosk', 'Klutz', 'Memento', 'Mystify', 'Numbskull', 'Ostracize', 'Oxygen', 'Pajama', 'Phlegm', 'Pixel',
+              'Polka', 'Quad', 'Quip', 'Rhythmic', 'Rogue', 'Sphinx', 'Squawk', 'Swivel', 'Toady', 'Twelfth', 'Unzip',
+              'Waxy', 'Wildebeest', 'Yacht', 'Zealous','Zigzag', 'Zippy', 'Zombie']
 
 
 def blank_word(word_to_blank):
@@ -87,7 +91,7 @@ def get_word(difficulty):
 def get_easy_word():
     logging.debug('Getting an easy word')
     words = EASY_WORDS
-    word = random.choice(words)
+    word = str(random.choice(words)).lower
     logging.debug('Returning word ' + word)
     return word
 
@@ -95,7 +99,7 @@ def get_easy_word():
 def get_medium_word():
     logging.debug('Getting an medium word')
     words = MEDIUM_WORDS
-    word = random.choice(words)
+    word = str(random.choice(words)).lower()
     logging.debug('Returning word ' + word)
     return word
 
@@ -103,7 +107,7 @@ def get_medium_word():
 def get_hard_word():
     logging.debug('Getting an hard word')
     words = HARD_WORDS
-    word = random.choice(words)
+    word = str(random.choice(words)).lower()
     logging.debug('Returning word ' + word)
     return word
 

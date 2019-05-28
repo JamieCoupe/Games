@@ -8,7 +8,8 @@ import Hangman
 
 while True:
     print('Available games:\n'
-          '1. Naughts and Crosses')
+          '1. Naughts and Crosses\n'
+          '2. Hangman')
 
     game = input('Which game would you like to play?').lower()
 
