@@ -3,8 +3,8 @@
 
 import os
 import time
-import naughtsandcrosses
-import hangman
+from src.python.games import naughtsandcrosses
+from src.python.games import hangman
 
 while True:
     print('Available games:\n'
@@ -18,10 +18,10 @@ while True:
         break
     elif game == '1':
         os.system('clear')
-        NaughtsAndCrosses.play_game()
+        naughtsandcrosses.play_game()
     elif game == '2':
         os.system('clear')
-        Hangman.play_game()
+        hangman.play_game()
     else:
         print('Please enter a valid game number')
 
