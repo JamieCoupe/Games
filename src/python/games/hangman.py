@@ -16,16 +16,16 @@ def blank_word(word_to_blank):
     for letter in enumerate(word_to_blank):
         blanked_word += '-'
 
-    all_words = {'original': word_to_blank, 'blanked': blanked_word, 'counter': 0, 'letters': ''}
-    return all_words
+    game_variables = {'original': word_to_blank, 'blanked': blanked_word, 'counter': 0, 'letters': ''}
+    return game_variables
 
 
-def blank_word_guess(all_words, guess):
+def blank_word_guess(game_variables, guess):
     logging.debug('Guess is ' + guess)
-    original_word = str(all_words['original'])
-    guessed_word = str(all_words['blanked'])
+    original_word = str(game_variables['original'])
+    guessed_word = str(game_variables['blanked'])
     new_guessed = ''
-    counter = all_words['counter']
+    counter = game_variables['counter']
     for letter_index in range(len(original_word)):
         logging.debug('Letter index is ' + str(letter_index))
         if original_word[letter_index] in guessed_word or original_word[letter_index] == guess:
@@ -35,23 +35,23 @@ def blank_word_guess(all_words, guess):
             logging.debug('Letter is not a match to this letter moving onto the next')
             new_guessed += '-'
 
-    all_words = {'original': original_word, 'blanked': new_guessed, 'counter': counter, 'letters': all_words['letters']}
-    return all_words
+    game_variables = {'original': original_word, 'blanked': new_guessed, 'counter': counter, 'letters': game_variables['letters']}
+    return game_variables
 
 
-def guess_letter(words, guess):
-    original_word = str(words['original'])
+def guess_letter(game_variables, guess):
+    original_word = str(game_variables['original'])
     if guess in original_word:
         print('Guess %s was correct' % guess)
-        words = blank_word_guess(words, guess)
-    elif guess in words['letters']:
+        game_variables = blank_word_guess(words, guess)
+    elif guess in game_variables['letters']:
         print('You have guessed this letter before')
     else:
         print('Guess %s was incorrect' % guess)
-        words['counter'] = words['counter'] + 1
-        words['letters'] = words['letters'] + ' ' + guess
+        game_variables['counter'] = game_variables['counter'] + 1
+        game_variables['letters'] = game_variables['letters'] + ' ' + guess
     logging.debug('The returned words are ' + str(words))
-    return words
+    return game_variables
 
 
 def print_gallows(man):
@@ -136,9 +136,9 @@ def get_man(turn_counter):
     return man
 
 
-def check_if_lost(words):
-    if len(words['letters']) >= 12:
-        man = get_man(words['counter'])
+def check_if_lost(game_variables):
+    if len(game_variables['letters']) >= 12:
+        man = get_man(game_variables['counter'])
         print_gallows(man)
         print('\n* * * * * * * * * *\n You lost! \n* * * * * * * * * *\n')
         time.sleep(5)
@@ -147,8 +147,8 @@ def check_if_lost(words):
         return True
 
 
-def check_if_won(words):
-    if '-' not in words['blanked']:
+def check_if_won(game_variables):
+    if '-' not in game_variables['blanked']:
         logging.debug('No more letters to guess')
         print('\n* * * * * * * * * *\n You win, congratulations! \n* * * * * * * * * *\n')
         time.sleep(3)
@@ -182,17 +182,17 @@ def play_game():
         while win_flag:
 
             print('\n* * * * * * * * * *\n    Hangman    \n* * * * * * * * * *\n' +
-                  words['blanked'] + '\n' + 'Guesses:' + words['letters'])
-            man = get_man(words['counter'])
+                  game_variables['blanked'] + '\n' + 'Guesses:' + game_variables['letters'])
+            man = get_man(game_variables['counter'])
             print_gallows(man)
             guess = input('Make a guess: ')
             if len(guess) == 1:
-                words = guess_letter(words, guess)
+                game_variables = guess_letter(game_variables, guess)
             else:
                 print('Only guess one letter at a time')
 
-            win_flag = check_if_won(words)
-            win_flag = check_if_lost(words)
+            win_flag = check_if_won(game_variables)
+            win_flag = check_if_lost(worgame_variablesds)
 
 
 if __name__ == "__main__":
