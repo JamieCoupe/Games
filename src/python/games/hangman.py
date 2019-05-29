@@ -43,14 +43,14 @@ def guess_letter(game_variables, guess):
     original_word = str(game_variables['original'])
     if guess in original_word:
         print('Guess %s was correct' % guess)
-        game_variables = blank_word_guess(words, guess)
+        game_variables = blank_word_guess(game_variables, guess)
     elif guess in game_variables['letters']:
         print('You have guessed this letter before')
     else:
         print('Guess %s was incorrect' % guess)
         game_variables['counter'] = game_variables['counter'] + 1
         game_variables['letters'] = game_variables['letters'] + ' ' + guess
-    logging.debug('The returned words are ' + str(words))
+    logging.debug('The returned words are ' + str(game_variables))
     return game_variables
 
 
@@ -81,13 +81,13 @@ def get_word(difficulty):
 
 
 def get_word_list(filename):
-    with open(filename) as word_file:
+    with open('src/data/{}'.format(filename)) as word_file:
       return [word.rstrip('\n') for word in word_file]
 
 
 def get_easy_word():
     logging.debug('Getting an easy word')
-    words = get_word_list('easy.txt')
+    words = get_word_list('easywords.txt')
     word = random.choice(words)
     logging.debug('Returning word ' + word)
     return word
@@ -95,7 +95,7 @@ def get_easy_word():
 
 def get_medium_word():
     logging.debug('Getting an medium word')
-    words = get_word_list('medium.txt')
+    words = get_word_list('mediumwords.txt')
     word = random.choice(words)
     logging.debug('Returning word ' + word)
     return word
@@ -103,7 +103,7 @@ def get_medium_word():
 
 def get_hard_word():
     logging.debug('Getting an hard word')
-    words = get_word_list('hard.txt')
+    words = get_word_list('hardwords.txt')
     word = random.choice(words)
     logging.debug('Returning word ' + word)
     return word
@@ -173,7 +173,7 @@ def play_game():
         elif difficulty == '1' or '2' or '3':
             logging.debug('Difficulty is a valid choice')
             word = get_word(difficulty)
-            words = blank_word(word)
+            game_variables = blank_word(word)
         else:
             print('That was not a valid choice')
 
@@ -192,7 +192,7 @@ def play_game():
                 print('Only guess one letter at a time')
 
             win_flag = check_if_won(game_variables)
-            win_flag = check_if_lost(worgame_variablesds)
+            win_flag = check_if_lost(game_variables)
 
 
 if __name__ == "__main__":
