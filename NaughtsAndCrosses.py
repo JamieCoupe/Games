@@ -31,7 +31,9 @@ def add_turn_to_board(board, move, turn):
 def set_turn_from_choice():
     is_valid_choice = True
     while is_valid_choice:
-        choice = input('Who should play first?\n1. You ("X")\n2. Computer ("O")\n').lower()
+        choice = input('Who should play first?\n'
+                       '1. You ("X")\n'
+                       '2. Computer ("O")\n').lower()
         if choice == '1':
             return 'X'
         elif choice == '2':
@@ -67,7 +69,8 @@ def check_player_win(row):
 def check_horizontal(board):
     for horizontal_index in range(3):
         horizontal_row = [v for v in list(board.values())[horizontal_index * 3:(horizontal_index + 1) * 3]]
-        # print('horizontal' + str(i) + str(row))
+        # TODO : add logging
+# print('horizontal' + str(i) + str(row))
         if check_player_win(horizontal_row):
             return player_wins()
         elif check_computer_win(horizontal_row):
@@ -124,7 +127,7 @@ def player_wins():
     return True
 
 
-def get_new_board():
+def reset_board():
     new_board = {'tl': ' ', 'tm': ' ', 'tr': ' ',
                  'ml': ' ', 'mm': ' ', 'mr': ' ',
                  'll': ' ', 'lm': ' ', 'lr': ' '}
@@ -134,7 +137,7 @@ def get_new_board():
 def play_game():
     while True:
 
-        board = get_new_board()
+        board = reset_board()
         turn = set_turn_from_choice()
 
         print_board(board)
@@ -149,7 +152,7 @@ def play_game():
                 print('No one won!')
                 break
 
-            move = input('Turn for ' + turn + '. Move on which space?').lower()
+            move = input('Turn for {}. Move on which space?'.format(turn)).lower()
 
             if move == 'q':
                 print('Quiting the game')
