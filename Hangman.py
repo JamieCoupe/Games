@@ -9,10 +9,6 @@ import time
 logging.basicConfig(level=logging.CRITICAL, format=' %(asctime)s -  %(levelname)s -  %(message)s')
 logging.disable(logging.DEBUG)
 
-EASY_WORDS = ['can', 'tan', 'apple']
-MEDIUM_WORDS = ['medium', 'special', 'caravan']
-HARD_WORDS = ['whisper', 'worship', 'arcane']
-
 
 def blank_word(word_to_blank):
     blanked_word = ''
