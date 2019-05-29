@@ -5,15 +5,16 @@
 import time
 
 WIN_SLEEP_TIMER = 5
-
+COMPUTER_WIN = ['O', 'O', 'O']
+PLAYER_WIN = ['X', 'X', 'X'] 
 
 def print_board(board_dict):
     print('\n* * * * * * * * * *\n Naughts and Crosses\n* * * * * * * * * *\n*                 *')
-    print('*    ' + board_dict['tl'] + ' | ' + board_dict['tm'] + ' | ' + board_dict['tr'] + '    *')
-    print('*   ' + '---+---+---   *')
-    print('*    ' + board_dict['ml'] + ' | ' + board_dict['mm'] + ' | ' + board_dict['mr'] + '    *')
-    print('*   ' + '---+---+---   *')
-    print('*    ' + board_dict['ll'] + ' | ' + board_dict['lm'] + ' | ' + board_dict['lr'] + '    *')
+    print('*    {} | {} | {}    *'.format(board_dict['tl'],board_dict['tm'],board_dict['tr']))
+    print('*   ---+---+---   *')
+    print('*    {} | {} | {}    *'.format(board_dict['ml'],board_dict['mm'],board_dict['mr']))
+    print('*   ---+---+---   *')
+    print('*    {} | {} | {}    *'.format(board_dict['ll'], board_dict['lm'], board_dict['lr'])) 
     print('*                 *\n* * * * * * * * * *\n')
 
 
@@ -31,9 +32,7 @@ def add_turn_to_board(board, move, turn):
 def set_turn_from_choice():
     is_valid_choice = True
     while is_valid_choice:
-        choice = input('Who should play first?\n'
-                       '1. You ("X")\n'
-                       '2. Computer ("O")\n').lower()
+        choice = input('Who should play first?\n1. You ("X")\n2. Computer ("O")\n').lower()
         if choice == '1':
             return 'X'
         elif choice == '2':
@@ -53,14 +52,14 @@ def change_turn(turn):
 
 
 def check_computer_win(row):
-    if row == ['O', 'O', 'O']:
+    if row == COMPUTER_WIN:
         return True
     else:
         return False
 
 
 def check_player_win(row):
-    if row == ['X', 'X', 'X']:
+    if row == PLAYER_WIN:
         return True
     else:
         return False
@@ -69,8 +68,7 @@ def check_player_win(row):
 def check_horizontal(board):
     for horizontal_index in range(3):
         horizontal_row = [v for v in list(board.values())[horizontal_index * 3:(horizontal_index + 1) * 3]]
-        # TODO : add logging
-# print('horizontal' + str(i) + str(row))
+        # print('horizontal' + str(i) + str(row))
         if check_player_win(horizontal_row):
             return player_wins()
         elif check_computer_win(horizontal_row):
@@ -128,10 +126,10 @@ def player_wins():
 
 
 def reset_board():
-    new_board = {'tl': ' ', 'tm': ' ', 'tr': ' ',
+    board = {'tl': ' ', 'tm': ' ', 'tr': ' ',
                  'ml': ' ', 'mm': ' ', 'mr': ' ',
                  'll': ' ', 'lm': ' ', 'lr': ' '}
-    return new_board
+    return board
 
 
 def play_game():
@@ -146,13 +144,12 @@ def play_game():
             if i > 0:
                 print_board(board)
 
-            won = check_win(board)
 
-            if won:
+            if not check_win(board) and i == 9:
                 print('No one won!')
                 break
 
-            move = input('Turn for {}. Move on which space?'.format(turn)).lower()
+            move = input('Turn for ' + turn + '. Move on which space?').lower()
 
             if move == 'q':
                 print('Quiting the game')
