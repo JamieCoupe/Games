@@ -3,8 +3,8 @@
 
 import os
 import time
-import NaughtsAndCrosses
-import Hangman
+import naughtsandcrosses
+import hangman
 
 while True:
     print('Available games:\n'
