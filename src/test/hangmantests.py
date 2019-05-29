@@ -1,7 +1,7 @@
 '''Tests for the hangman game'''
 
 import unittest
-from Hangman import *
+from src.test.hangman import *
 
 
 class HangMantest(unittest.TestCase):
