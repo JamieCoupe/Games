@@ -18,6 +18,11 @@ HARD_WORDS = ['Awkward', 'Bagpipes', 'BanjoBungler','Croquet','Crypt', 'Dwarves'
               'Waxy', 'Wildebeest', 'Yacht', 'Zealous','Zigzag', 'Zippy', 'Zombie']
 
 
+def get_word(filename):
+    with open(filename) as word_file:
+      return word_file.readlines()
+  
+  
 def blank_word(word_to_blank):
     blanked_word = ''
 
@@ -90,7 +95,7 @@ def get_word(difficulty):
 
 def get_easy_word():
     logging.debug('Getting an easy word')
-    words = EASY_WORDS
+    words = get_word(easy.txt)
     word = str(random.choice(words)).lower
     logging.debug('Returning word ' + word)
     return word
@@ -98,7 +103,7 @@ def get_easy_word():
 
 def get_medium_word():
     logging.debug('Getting an medium word')
-    words = MEDIUM_WORDS
+    words = get_word(medium.txt)
     word = str(random.choice(words)).lower()
     logging.debug('Returning word ' + word)
     return word
@@ -106,7 +111,7 @@ def get_medium_word():
 
 def get_hard_word():
     logging.debug('Getting an hard word')
-    words = HARD_WORDS
+    words = get_word(hard.txt)
     word = str(random.choice(words)).lower()
     logging.debug('Returning word ' + word)
     return word
