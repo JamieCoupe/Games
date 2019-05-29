@@ -1,10 +1,10 @@
 '''Tests for the hangman game'''
 
 import unittest
-from src.test.hangman import *
+from src.python.games.hangman import *
 
 
-class HangMantest(unittest.TestCase):
+class hangmanTest(unittest.TestCase):
 
     man = ''
     test_word = ''

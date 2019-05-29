@@ -35,7 +35,8 @@ def blank_word_guess(game_variables, guess):
             logging.debug('Letter is not a match to this letter moving onto the next')
             new_guessed += '-'
 
-    game_variables = {'original': original_word, 'blanked': new_guessed, 'counter': counter, 'letters': game_variables['letters']}
+    game_variables = {'original': original_word, 'blanked': new_guessed, 'counter': counter,
+                      'letters': game_variables['letters']}
     return game_variables
 
 
@@ -66,8 +67,8 @@ def print_gallows(man):
                'ninth_row': '|VVVVVVV|',
                }
 
-    print(gallows['first_row']+'\n'+gallows['second_row']+'\n'+gallows['third_row']+'\n'+gallows['fourth_row']+'\n'+
-          gallows['fifth_row']+'\n'+gallows['sixth_row']+'\n'+gallows['seventh_row']+'\n'+gallows['eighth_row']+'\n'+
+    print(gallows['first_row']+'\n'+gallows['second_row']+'\n'+gallows['third_row']+'\n'+gallows['fourth_row']+'\n' +
+          gallows['fifth_row']+'\n'+gallows['sixth_row']+'\n'+gallows['seventh_row']+'\n'+gallows['eighth_row']+'\n' +
           gallows['ninth_row'])
 
 
@@ -79,10 +80,12 @@ def get_word(difficulty):
     elif difficulty == '3':
         return get_hard_word()
 
+# /Users/jamiecoupe/PycharmProjects/Games/src/data/easywords.txt
+
 
 def get_word_list(filename):
-    with open('src/data/{}'.format(filename)) as word_file:
-      return [word.rstrip('\n') for word in word_file]
+    with open('/Users/jamiecoupe/PycharmProjects/Games/src/data/{}'.format(filename)) as word_file:
+        return [word.rstrip('\n') for word in word_file]
 
 
 def get_easy_word():
@@ -130,7 +133,7 @@ def get_man(turn_counter):
         man = {'head': '    O', 'left_arm': '   \\', 'body_top': '|', 'right_arm': '/', 'body_bottom': '    |',
                'left_leg': '    /', 'right_leg': '\\'}
     else:
-        man = {'head' : '', 'left_arm': '', 'body_top': '', 'right_arm': '', 'body_bottom': '', 'left_leg': '',
+        man = {'head': '', 'left_arm': '', 'body_top': '', 'right_arm': '', 'body_bottom': '', 'left_leg': '',
                'right_leg': ''}
     logging.debug('Man is:' + str(man))
     return man
@@ -142,19 +145,19 @@ def check_if_lost(game_variables):
         print_gallows(man)
         print('\n* * * * * * * * * *\n You lost! \n* * * * * * * * * *\n')
         time.sleep(5)
-        return False
-    else:
         return True
+    else:
+        return False
 
 
 def check_if_won(game_variables):
     if '-' not in game_variables['blanked']:
-        logging.debug('No more letters to guess')
+        logging.debug('Player one')
         print('\n* * * * * * * * * *\n You win, congratulations! \n* * * * * * * * * *\n')
         time.sleep(3)
-        return False
-    else:
         return True
+    else:
+        return False
 
 
 def play_game():
@@ -166,7 +169,7 @@ def play_game():
 
         difficulty = str(input()).lower()
 
-        if difficulty == 'q':
+        if difficulty == 'qq':
             logging.debug('Quitting')
             print('Quitting game')
             exit()
@@ -177,22 +180,25 @@ def play_game():
         else:
             print('That was not a valid choice')
 
-        win_flag = True
+        win_flag = False
 
-        while win_flag:
+        while not win_flag:
 
             print('\n* * * * * * * * * *\n    Hangman    \n* * * * * * * * * *\n' +
                   game_variables['blanked'] + '\n' + 'Guesses:' + game_variables['letters'])
             man = get_man(game_variables['counter'])
             print_gallows(man)
             guess = input('Make a guess: ')
+
+            if guess == 'qq':
+                logging.debug("Quitting game")
+                break
             if len(guess) == 1:
                 game_variables = guess_letter(game_variables, guess)
             else:
                 print('Only guess one letter at a time')
 
-            win_flag = check_if_won(game_variables)
-            win_flag = check_if_lost(game_variables)
+            win_flag = check_if_lost(game_variables) or check_if_won(game_variables)
 
 
 if __name__ == "__main__":

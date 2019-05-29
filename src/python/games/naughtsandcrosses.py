@@ -3,10 +3,15 @@
 """This is a tic tac toe game created by Jamie Coupe"""
 
 import time
+import logging
+
+logging.basicConfig(level=logging.CRITICAL, format=' %(asctime)s -  %(levelname)s -  %(message)s')
+logging.disable(logging.DEBUG)
 
 WIN_SLEEP_TIMER = 5
 COMPUTER_WIN = ['O', 'O', 'O']
 PLAYER_WIN = ['X', 'X', 'X'] 
+
 
 def print_board(board_dict):
     print('\n* * * * * * * * * *\n Naughts and Crosses\n* * * * * * * * * *\n*                 *')
@@ -32,12 +37,14 @@ def add_turn_to_board(board, move, turn):
 def set_turn_from_choice():
     is_valid_choice = True
     while is_valid_choice:
-        choice = input('Who should play first?\n1. You ("X")\n2. Computer ("O")\n').lower()
+        choice = input('Who should play first?\n'
+                       '1. You ("X")\n'
+                       '2. Computer ("O")\n').lower()
         if choice == '1':
             return 'X'
         elif choice == '2':
             return 'O'
-        elif choice == 'q':
+        elif choice == 'qq':
             print('Quitting')
             exit()
         else:
@@ -68,7 +75,7 @@ def check_player_win(row):
 def check_horizontal(board):
     for horizontal_index in range(3):
         horizontal_row = [v for v in list(board.values())[horizontal_index * 3:(horizontal_index + 1) * 3]]
-        # print('horizontal' + str(i) + str(row))
+        logging.debug('horizontal' + str(horizontal_index) + str(horizontal_row))
         if check_player_win(horizontal_row):
             return player_wins()
         elif check_computer_win(horizontal_row):
@@ -78,7 +85,7 @@ def check_horizontal(board):
 def check_vertical(board):
     for vertical_index in range(3):
         vertical_row = [v for v in list(board.values())[vertical_index::3]]
-        # print('vertical' + str(i) + str(row))
+        logging.debug('vertical' + str(vertical_index) + str(vertical_row))
         if check_player_win(vertical_row):
             return player_wins()
         elif check_computer_win(vertical_row):
@@ -90,7 +97,7 @@ def check_diagonal(board):
         diagonal_row = [v for v in list(board.values())[diagonal_index * 2::get_diagonal_multiplier(diagonal_index)]]
         if len(diagonal_row) > 3:
             diagonal_row.pop(3)
-        # print('diagonal' + str(row))
+            logging.debug('diagonal' + str(diagonal_row))
         if check_player_win(diagonal_row):
             return player_wins()
         elif check_computer_win(diagonal_row):
@@ -127,8 +134,8 @@ def player_wins():
 
 def reset_board():
     board = {'tl': ' ', 'tm': ' ', 'tr': ' ',
-                 'ml': ' ', 'mm': ' ', 'mr': ' ',
-                 'll': ' ', 'lm': ' ', 'lr': ' '}
+             'ml': ' ', 'mm': ' ', 'mr': ' ',
+             'll': ' ', 'lm': ' ', 'lr': ' '}
     return board
 
 
@@ -144,14 +151,13 @@ def play_game():
             if i > 0:
                 print_board(board)
 
-
             if not check_win(board) and i == 9:
                 print('No one won!')
                 break
 
             move = input('Turn for ' + turn + '. Move on which space?').lower()
 
-            if move == 'q':
+            if move == 'qq':
                 print('Quiting the game')
                 break
             elif move in ['tl', 'tm', 'tr', 'ml', 'mm', 'mr', 'll', 'lm', 'lr']:
