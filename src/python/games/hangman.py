@@ -172,7 +172,7 @@ def play_game():
         if difficulty == 'qq':
             logging.debug('Quitting')
             print('Quitting game')
-            exit()
+            break
         elif difficulty == '1' or '2' or '3':
             logging.debug('Difficulty is a valid choice')
             word = get_word(difficulty)
