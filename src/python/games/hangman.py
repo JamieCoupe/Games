@@ -184,8 +184,9 @@ def play_game():
 
         while not win_flag:
 
-            print('\n* * * * * * * * * *\n    Hangman    \n* * * * * * * * * *\n' +
-                  game_variables['blanked'] + '\n' + 'Guesses:' + game_variables['letters'])
+            print('\n* * * * * * * * * *\n    Hangman    \n* * * * * * * * * *\n{}\nGuesses: {}'.format(
+                game_variables['blanked'], game_variables['letters']))
+
             man = get_man(game_variables['counter'])
             print_gallows(man)
             guess = input('Make a guess: ')
