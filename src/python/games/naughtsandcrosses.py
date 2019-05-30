@@ -2,11 +2,12 @@
 
 """This is a tic tac toe game created by Jamie Coupe"""
 
-import time
 import logging
+import random
+import time
 
-logging.basicConfig(level=logging.CRITICAL, format=' %(asctime)s -  %(levelname)s -  %(message)s')
-logging.disable(logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s -  %(levelname)s -  %(message)s')
+# logging.disable(logging.DEBUG)
 
 WIN_SLEEP_TIMER = 5
 COMPUTER_WIN = ['O', 'O', 'O']
@@ -21,17 +22,6 @@ def print_board(board_dict):
     print('*   ---+---+---   *')
     print('*    {} | {} | {}    *'.format(board_dict['ll'], board_dict['lm'], board_dict['lr'])) 
     print('*                 *\n* * * * * * * * * *\n')
-
-
-def add_turn_to_board(board, move, turn):
-    if board[move] != ' ':
-        print("This location has been used before\n Please try again.")
-        has_player = False
-    else:
-        board[move] = turn
-        has_player = True
-
-    return has_player
 
 
 def set_turn_from_choice():
@@ -139,6 +129,59 @@ def reset_board():
     return board
 
 
+def add_turn_to_board(board, move, turn):
+    if board[move] != ' ':
+        print("This location has been used before\n Please try again.")
+    else:
+        board[move] = turn
+
+    return board
+
+
+def player_move(board, turn_number, turn):
+    move = input('Turn for ' + turn + '. Move on which space?').lower()
+
+    if move == 'qq':
+        print('Quiting the game')
+        return 'quit'
+    elif move in ['tl', 'tm', 'tr', 'ml', 'mm', 'mr', 'll', 'lm', 'lr']:
+        board = add_turn_to_board(board, move, turn)
+    else:
+        print('Please enter a valid move')
+
+    return board
+
+
+def computer_move(board, turn_number, turn):
+    free_spaces = []
+    player_spaces = []
+    computer_spaces = []
+    for location, value in board.items():
+        logging.debug('Location = ' + location)
+        logging.debug('value = ' + value)
+        if value == ' ':
+            free_spaces.append(location)
+            player_spaces.append('')
+            computer_spaces.append('')
+            logging.debug('Free spaces are ' + str(free_spaces))
+        elif value == 'O':
+            player_spaces.append(location)
+            computer_spaces.append('')
+            free_spaces.append('')
+        elif value == 'X':
+            computer_spaces.append(location)
+            player_spaces.append('')
+            free_spaces.append('')
+        else:
+            continue
+
+    random.shuffle(free_spaces)
+    location = free_spaces.pop()
+    logging.debug('chosen location is ' + location)
+    board = add_turn_to_board(board, location, turn)
+    return board
+
+
 def play_game():
     while True:
 
@@ -147,26 +190,50 @@ def play_game():
 
         print_board(board)
 
-        for i in range(9):
-            if i > 0:
+        for turn_number in range(9):
+            if turn == 'X':
+                board = player_move(board, turn_number, turn)
+
+                if not check_win(board) and turn_number == 9:
+                    print('No one won!')
+                    break
+
+                turn = change_turn(turn)
                 print_board(board)
 
-            if not check_win(board) and i == 9:
-                print('No one won!')
-                break
+                if board == 'quit':
+                    break
+                time.sleep(2)
+                board = computer_move(board, turn_number, turn)
+                print_board(board)
 
-            move = input('Turn for ' + turn + '. Move on which space?').lower()
+                if not check_win(board) and turn_number == 9:
+                    print('No one won!')
+                    break
 
-            if move == 'qq':
-                print('Quiting the game')
-                break
-            elif move in ['tl', 'tm', 'tr', 'ml', 'mm', 'mr', 'll', 'lm', 'lr']:
-                if add_turn_to_board(board, move, turn):
-                    turn = change_turn(turn)
-                else:
-                    continue
+                turn = change_turn(turn)
             else:
-                print('Please enter a valid move')
+                time.sleep(2)
+                board = computer_move(board, turn_number, turn)
+
+                if not check_win(board) and turn_number == 9:
+                    print('No one won!')
+                    break
+
+                turn = change_turn(turn)
+                print_board(board)
+
+                if board == 'quit':
+                    break
+
+                board = player_move(board, turn_number, turn)
+                print_board(board)
+
+                if not check_win(board) and turn_number == 9:
+                    print('No one won!')
+                    break
+
+                turn = change_turn(turn)
 
 
 if __name__ == "__main__":
