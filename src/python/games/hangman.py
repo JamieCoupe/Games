@@ -42,15 +42,19 @@ def blank_word_guess(game_variables, guess):
 
 def guess_letter(game_variables, guess):
     original_word = str(game_variables['original'])
+
     if guess in original_word:
         print('Guess %s was correct' % guess)
         game_variables = blank_word_guess(game_variables, guess)
+
     elif guess in game_variables['letters']:
         print('You have guessed this letter before')
+
     else:
         print('Guess %s was incorrect' % guess)
         game_variables['counter'] = game_variables['counter'] + 1
         game_variables['letters'] = game_variables['letters'] + ' ' + guess
+
     logging.debug('The returned words are ' + str(game_variables))
     return game_variables
 
@@ -84,7 +88,7 @@ def get_word(difficulty):
 
 
 def get_word_list(filename):
-    with open('src/data/{}'.format(filename)) as word_file:
+    with open('/Users/jamiecoupe/PycharmProjects/Games/src/data/{}'.format(filename)) as word_file:
         return [word.rstrip('\n') for word in word_file]
 
 
@@ -112,38 +116,33 @@ def get_hard_word():
     return word
 
 
-def get_man(turn_counter):
+def get_man(turn_counter, man):
     logging.debug('Getting the man')
+
     if turn_counter == 1:
-        man = {'head': '    O', 'left_arm': '', 'body_top': '', 'right_arm': '', 'body_bottom': '', 'left_leg': '',
-               'right_leg': ''}
+        man['head'] = '    O'
     elif turn_counter == 2:
-        man = {'head': '    O', 'left_arm': '', 'body_top': '    |', 'right_arm': '', 'body_bottom': '    |',
-               'left_leg': '', 'right_leg': ''}
+        man['body_top'] = '    |'
+        man['body_bottom'] = '    |'
     elif turn_counter == 3:
-        man = {'head': '    O', 'left_arm': '   \\', 'body_top': '|', 'right_arm': '', 'body_bottom': '    |',
-               'left_leg': '', 'right_leg': ''}
+        man['body_top'] = '|'
+        man['left_arm'] = '   \\'
     elif turn_counter == 4:
-        man = {'head': '    O', 'left_arm': '   \\', 'body_top': '|', 'right_arm': '/', 'body_bottom': '    |',
-               'left_leg': '', 'right_leg': ''}
+        man['right_arm'] = '/'
     elif turn_counter == 5:
-        man = {'head': '    O', 'left_arm': '   \\', 'body_top': '|', 'right_arm': '/', 'body_bottom': '    |',
-               'left_leg': '     /', 'right_leg': ''}
+        man['left_leg'] = '    /'
     elif turn_counter == 6:
-        man = {'head': '    O', 'left_arm': '   \\', 'body_top': '|', 'right_arm': '/', 'body_bottom': '    |',
-               'left_leg': '    /', 'right_leg': '\\'}
-    else:
-        man = {'head': '', 'left_arm': '', 'body_top': '', 'right_arm': '', 'body_bottom': '', 'left_leg': '',
-               'right_leg': ''}
+        man['right_leg'] = '\\'
     logging.debug('Man is:' + str(man))
     return man
 
 
-def check_if_lost(game_variables):
+def check_if_lost(game_variables, man):
     if len(game_variables['letters']) >= 12:
-        man = get_man(game_variables['counter'])
+        man = get_man(game_variables['counter'], man)
         print_gallows(man)
-        print('\n* * * * * * * * * *\n You lost! \n* * * * * * * * * *\n')
+        print('\n* * * * * * * * * *\n You lost! \n The word was: {}\n* * * * * * * * * *\n'.format(
+            game_variables['original'].capitalize()))
         time.sleep(5)
         return True
     else:
@@ -168,6 +167,8 @@ def play_game():
         print('\n1. Easy\n2. Medium\n3. Hard')
 
         difficulty = str(input()).lower()
+        man = {'head': '', 'left_arm': '', 'body_top': '', 'right_arm': '', 'body_bottom': '', 'left_leg': '',
+               'right_leg': ''}
 
         if difficulty == 'qq':
             logging.debug('Quitting')
@@ -184,10 +185,10 @@ def play_game():
 
         while not win_flag:
 
-            print('\n* * * * * * * * * *\n    Hangman    \n* * * * * * * * * *\n{}\nGuesses: {}'.format(
+            print('\n* * * * * * * * * *\n    Hangman    \n* * * * * * * * * *\n\nWord: {}\nGuesses: {}\n'.format(
                 game_variables['blanked'], game_variables['letters']))
 
-            man = get_man(game_variables['counter'])
+            man = get_man(game_variables['counter'], man)
             print_gallows(man)
             guess = input('Make a guess: ')
 
@@ -199,7 +200,7 @@ def play_game():
             else:
                 print('Only guess one letter at a time')
 
-            win_flag = check_if_lost(game_variables) or check_if_won(game_variables)
+            win_flag = check_if_lost(game_variables, man) or check_if_won(game_variables)
 
 
 if __name__ == "__main__":
