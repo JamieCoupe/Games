@@ -5,12 +5,14 @@ import os
 import time
 from src.python.games import naughtsandcrosses
 from src.python.games import hangman
+from src.python.games import blackjack
 
 def main():
   while True:
       print('Available games:\n'
             '1. Naughts and Crosses\n'
-            '2. Hangman')
+            '2. Hangman\n'
+            '3. Blackjack\n')
 
       game = input('Which game would you like to play?').lower()
 
@@ -23,6 +25,9 @@ def main():
       elif game == '2':
           os.system('clear')
           hangman.play_game()
+      elif game == '3':
+          os.system('clear')
+          blackjack.play_game()
       else:
           print('Please enter a valid game number')
 
