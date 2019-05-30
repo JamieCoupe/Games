@@ -84,7 +84,7 @@ def get_word(difficulty):
 
 
 def get_word_list(filename):
-    with open('/Users/jamiecoupe/PycharmProjects/Games/src/data/{}'.format(filename)) as word_file:
+    with open('src/data/{}'.format(filename)) as word_file:
         return [word.rstrip('\n') for word in word_file]
 
 
