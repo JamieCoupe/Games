@@ -5,6 +5,7 @@ import os
 import time
 
 from src.python.games import blackjack
+from src.python.games import fourinarow
 from src.python.games import hangman
 from src.python.games import naughtsandcrosses
 
@@ -14,7 +15,8 @@ def main():
         print('Available games:\n'
               '1. Naughts and Crosses\n'
               '2. Hangman\n'
-              '3. Blackjack\n')
+              '3. Blackjack\n'
+              '4. Four in a Row\n')
 
         game = input('Which game would you like to play?').lower()
 
@@ -30,6 +32,9 @@ def main():
         elif game == '3':
             os.system('clear')
             blackjack.play_game()
+        elif game == '4':
+            os.system('clear')
+            fourinarow.play_game()
         else:
             print('Please enter a valid game number')
 
