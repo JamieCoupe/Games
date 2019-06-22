@@ -129,7 +129,7 @@ def play_game():
 
             turn = change_turn(turn)
 
-            # board = computer_turn(board)
+            board = computer_turn(board)
 
 
 if __name__ == "__main__":

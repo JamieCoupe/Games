@@ -7,7 +7,7 @@ import time
 from src.python.games import blackjack
 from src.python.games import fourinarow
 from src.python.games import hangmanV2 as hangman
-from src.python.games import naughtsandcrosses
+from src.python.games import naughtsandcrossesV2 as naughtsandcrosses
 
 
 def main():
