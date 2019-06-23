@@ -4,10 +4,12 @@
 import os
 import time
 
+from src.python.games import bagels
 from src.python.games import blackjack
 from src.python.games import fourinarow
 from src.python.games import hangmanV2 as hangman
 from src.python.games import naughtsandcrossesV2 as naughtsandcrosses
+from src.python.games import sonar
 
 
 def main():
@@ -16,7 +18,9 @@ def main():
               '1. Naughts and Crosses\n'
               '2. Hangman\n'
               '3. Blackjack\n'
-              '4. Four in a Row\n')
+              '4. Four in a Row\n'
+              '5. Bagels\n'
+              '6. Sonar Treasure Hunt\n')
 
         game = input('Which game would you like to play?').lower()
 
@@ -35,6 +39,12 @@ def main():
         elif game == '4':
             os.system('clear')
             fourinarow.play_game()
+        elif game == '5':
+            os.system('clear')
+            bagels.play_game()
+        elif game == '6':
+            os.system('clear')
+            sonar.play_game()
         else:
             print('Please enter a valid game number')
 

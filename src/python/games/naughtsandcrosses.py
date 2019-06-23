@@ -152,7 +152,7 @@ def player_move(board, turn_number, turn):
     return board
 
 
-def computer_move2(board, turn_number, turn):
+def computer_move(board, turn_number, turn):
     free_spaces = []
     player_spaces = []
     computer_spaces = []
@@ -181,47 +181,6 @@ def computer_move2(board, turn_number, turn):
     board = add_turn_to_board(board, location, turn)
     return board
 
-
-def computer_move(board, turn):
-    # Here is the algorithm for our Tic-Tac-Toe AI:
-    # First, check if we can win in the next move.
-    for i in range(1, 10):
-        boardCopy = getBoardCopy(board)
-        if isSpaceFree(boardCopy, i):
-            makeMove(boardCopy, computerLetter, i)
-            if isWinner(boardCopy, computerLetter):
-                return i
-    # Returns None if there is no valid move.
-    possibleMoves = []
-    for i in movesList:
-        if isSpaceFree(board, i):
-            possibleMoves.append(i)
-    if len(possibleMoves) != 0:
-        return random.choice(possibleMoves)
-    else:
-        return None
-    # Check if the player could win on their next move and block them.
-    for i in range(1, 10):
-        # Return True if every space on the board has been taken. Otherwise,
-        return False.
-    for i in range(1, 10):
-        if isSpaceFree(board, i):
-            return False
-    return True
-    boardCopy = getBoardCopy(board)
-    if isSpaceFree(boardCopy, i):
-        makeMove(boardCopy, playerLetter, i)
-    if isWinner(boardCopy, playerLetter):
-        return i
-    # Try to take one of the corners, if they are free.
-    move = chooseRandomMoveFromList(board, [1, 3, 7, 9])
-    if move != None:
-        return move
-    return 5
-    # Try to take the center, if it is free.
-    if isSpaceFree(board, 5):
-    # Move on one of the sides.
-    return chooseRandomMoveFromList(board, [2, 4, 6, 8])
 
 def play_game():
     while True:
